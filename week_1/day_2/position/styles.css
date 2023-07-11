@@ -1,0 +1,50 @@
+.box{
+    padding: 25px;
+    margin: 10px 0;
+    color:white;
+    background-color: black;
+    border: 2px solid yellow;
+
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+}
+
+.box-2{
+    padding: 25px;
+    margin: 10px 0;
+    color:black;
+    background-color: red;
+    border: 2px solid yellow;
+    border-radius: 10px;
+    max-width: 100px;
+    display: flex;
+    justify-content: center;
+}
+
+.hello{
+    left: 25%;
+    top: 200px;
+}
+
+.there{
+    left: 25%;
+    top: 200px;
+}
+
+.fixed{
+    position: fixed;
+    top: 100px;
+    right: 50px;
+}
+
+.absolute{
+    position: absolute;
+}
+
+.relative{
+    position: relative;
+}
+
+
+
