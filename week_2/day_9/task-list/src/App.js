@@ -1,83 +1,35 @@
 import "./App.css";
-import { useState, useEffect } from "react";
+
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap-icons/font/bootstrap-icons.css";
-import { Task } from "./models/Task";
-import TaskInput from "./components/TaskInput";
-import TaskTable from "./components/TaskTable";
-import TaskService from "./services/task-service";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import TaskPage from "./components/task/TaskPage";
+import LoginPage from "./components/auth/LoginPage";
+import RegisterPage from "./components/auth/RegisterPage";
+import Navbar from "./components/common/Navbar";
+import { useEffect, useState } from "react";
+import { onAuthStateChanged } from "firebase/auth";
+import { auth } from "./firebase/firebase";
 
 function App() {
-  const [tasks, setTasks] = useState([]);
+  const [user, setUser] = useState(null);
 
   useEffect(() => {
-    if (!tasks.length) {
-      onInitialLoad();
-    }
-  }, []);
-
-  async function onInitialLoad() {
-    try {
-      const tasks = await TaskService.fetchTasks();
-      setTasks(tasks);
-    } catch (err) {
-      console.log(err);
-    }
-  }
-
-  async function onTaskCreate(name) {
-    const task = await TaskService.createTask(new Task(null, name, false));
-    setTasks([...tasks, task]);
-  }
-
-  async function onTaskRemove(taskId) {
-    await TaskService.deleteTask(taskId);
-    setTasks(tasks.filter((task) => task.id !== taskId));
-  }
-
-  async function onTaskCompleteToggle(taskId) {
-    const taskToToggle = tasks.find((task) => task.id === taskId);
-    taskToToggle.complete = !taskToToggle.complete;
-
-    const updatedTask = await TaskService.updateTask(taskToToggle);
-
-    setTasks(
-      tasks.map((task) => {
-        return task.id === taskId ? updatedTask : task;
-      })
-    );
-  }
-
-  // function saveTasksToLocalStorage() {
-  //   const json = JSON.stringify(tasks);
-  //   localStorage.setItem('tasks', json);
-  // }
-
-  // function loadTasksFromLocalStorage() {
-  //   const json = localStorage.getItem('tasks');
-  //   if (json) {
-  //     const taskArr = JSON.parse(json);
-  //     if (taskArr.length) {
-  //       setTasks(taskArr.map((x) => Task.fromJson(x)));
-  //     }
-  //   }
-  // }
+    onAuthStateChanged(auth, (user) => {
+      setUser(user);
+      console.log(user);
+    });
+  }, [])
 
   return (
-    <div className="container mt-5">
-      <div className="card card-body text-center">
-        <h1>Task List</h1>
-        <hr />
-        <p>Our Task List</p>
-
-        <TaskInput onTaskCreate={onTaskCreate} />
-        <TaskTable
-          tasks={tasks}
-          onTaskRemove={onTaskRemove}
-          onTaskCompleteToggle={onTaskCompleteToggle}
-        />
-      </div>
-    </div>
+    <BrowserRouter>
+    <Navbar user={user}/>
+      <Routes>
+        <Route path='/' element={<TaskPage />}></Route>
+        <Route path='/login' element={<LoginPage />}></Route>
+        <Route path='/register' element={<RegisterPage />}></Route>
+      </Routes>
+    </BrowserRouter>
   );
 }
 
