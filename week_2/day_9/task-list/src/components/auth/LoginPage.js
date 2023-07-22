@@ -9,12 +9,12 @@ export default function LoginPage() {
 
   const navigate = useNavigate();
 
-  async function onFormSubmit(e){
+  async function onFormSubmit(e) {
     e.preventDefault();
 
     try {
       const userCred = await signInWithEmailAndPassword(auth, email, password);
-      navigate('/');
+      navigate("/");
     } catch (err) {
       alert(err.message);
     }
@@ -48,7 +48,9 @@ export default function LoginPage() {
           </div>
 
           <div className="d-flex justify-content-end mt-4">
-            <button className="btn btn-primary" type="submit">Login</button>
+            <button className="btn btn-primary" type="submit">
+              Login
+            </button>
           </div>
         </form>
       </div>

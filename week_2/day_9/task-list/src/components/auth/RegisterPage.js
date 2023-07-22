@@ -18,8 +18,7 @@ export default function RegisterPage() {
         email,
         password
       );
-      navigate('/');
-
+      navigate("/");
     } catch (err) {
       alert(err.message);
     }

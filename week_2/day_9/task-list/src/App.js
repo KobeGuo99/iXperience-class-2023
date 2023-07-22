@@ -19,15 +19,15 @@ function App() {
       setUser(user);
       console.log(user);
     });
-  }, [])
+  }, []);
 
   return (
     <BrowserRouter>
-    <Navbar user={user}/>
+      <Navbar user={user} />
       <Routes>
-        <Route path='/' element={<TaskPage />}></Route>
-        <Route path='/login' element={<LoginPage />}></Route>
-        <Route path='/register' element={<RegisterPage />}></Route>
+        <Route path="/" element={<TaskPage />}></Route>
+        <Route path="/login" element={<LoginPage />}></Route>
+        <Route path="/register" element={<RegisterPage />}></Route>
       </Routes>
     </BrowserRouter>
   );
